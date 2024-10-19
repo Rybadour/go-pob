@@ -4,12 +4,12 @@
   import { onMount } from 'svelte';
 
   onMount(() => {
-    if (!$skillTree || !$skillTreeVersion || Object.keys(drawnGroups).length === 0) {
+    if (!$skillTree || !$skillTreeVersion || drawnGroups.size === 0) {
       loadSkillTree('3_18');
     }
   });
 </script>
 
-{#if $skillTree && $skillTreeVersion && Object.keys(drawnGroups).length > 0}
-  <SkillTree />
+{#if $skillTree && $skillTreeVersion && drawnGroups.size > 0}
+  <SkillTree skillTree={$skillTree} skillTreeVersion={$skillTreeVersion} />
 {/if}

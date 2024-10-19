@@ -5,8 +5,8 @@
   import { syncWrap } from '../go/worker';
 
   let updatingCurrentClass = true;
-  const currentClass = new writable<string | undefined>();
-  $: $currentBuild?.Build?.ClassName.then((value) => {
+  const currentClass = writable<string | undefined>();
+  $: $currentBuild?.Build?.ClassName?.then((value) => {
     updatingCurrentClass = true;
     currentClass.set(value);
     updatingCurrentClass = false;
@@ -21,8 +21,8 @@
   });
 
   let updatingCurrentAscendancy = true;
-  const currentAscendancy = new writable<string | undefined>();
-  $: $currentBuild?.Build?.AscendClassName.then((value) => {
+  const currentAscendancy = writable<string | undefined>();
+  $: $currentBuild?.Build?.AscendClassName?.then((value) => {
     updatingCurrentAscendancy = true;
     currentAscendancy.set(value);
     updatingCurrentAscendancy = false;
@@ -36,8 +36,8 @@
   });
 
   let updatingCurrentLevel = true;
-  const currentLevel = new writable<number>(1);
-  $: $currentBuild?.Build?.Level.then((value) => {
+  const currentLevel = writable<number>(1);
+  $: $currentBuild?.Build?.Level?.then((value) => {
     updatingCurrentLevel = true;
     currentLevel.set(value);
     updatingCurrentLevel = false;
