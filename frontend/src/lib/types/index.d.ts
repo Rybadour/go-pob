@@ -537,8 +537,8 @@ export declare namespace pob {
     TreeView: pob.TreeView;
     Config: pob.Config;
     AddNewSocketGroup(): void;
-    AllocateNode(nodeId: number): void;
-    DeallocateNode(nodeId: number): void;
+    AllocateNodes(nodeIds?: Array<number>): void;
+    DeallocateNodes(nodeId: number): void;
     DeleteAllSocketGroups(): void;
     DeleteSocketGroup(index: number): void;
     GetStringOption(name: string): string;

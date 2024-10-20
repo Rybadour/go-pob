@@ -46,9 +46,19 @@
   export let clickNode = (node: Node) => {
     const nodeId = node.skill ?? -1;
     if (activeNodes?.includes(nodeId)) {
-      syncWrap?.DeallocateNode(nodeId);
+      syncWrap?.DeallocateNodes(nodeId);
     } else {
-      syncWrap?.AllocateNode(nodeId);
+      // TODO: Needs support for ascendancies or any other disconnect groups
+      const rootNodes = classStartNodes[skillTree.classes.findIndex((c) => c.name === currentClass)];
+      syncWrap?.CalculateTreePath(skillTreeVersion || '3_18', [...rootNodes, ...activeNodes ?? []], nodeId).then((pathData) => {
+        if (!pathData) {
+          return;
+        }
+
+        // The first in the path is always an already allocated node
+        const isRootInPath = rootNodes.includes(pathData[0]);
+        syncWrap?.AllocateNodes(isRootInPath ? pathData : pathData.slice(1));
+      });
     }
 
     currentBuild.set($currentBuild);
@@ -419,7 +429,7 @@
       if (hoveredNode !== undefined && currentClass) {
         const rootNodes = classStartNodes[skillTree.classes.findIndex((c) => c.name === currentClass)];
         const target = hoveredNode.skill;
-        syncWrap?.CalculateTreePath(skillTreeVersion || '3_18', rootNodes, target!).then((data) => {
+        syncWrap?.CalculateTreePath(skillTreeVersion || '3_18', [...rootNodes, ...activeNodes ?? []], target!).then((data) => {
           hoverPath.set(data ?? []);
         });
       } else {

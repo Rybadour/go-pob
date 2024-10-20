@@ -113,11 +113,11 @@ func (b *PathOfBuilding) SetLevel(level int) {
 	b.Build.Level = level
 }
 
-func (b *PathOfBuilding) AllocateNode(nodeId int64) {
-	b.Build.PassiveNodes = append(b.Build.PassiveNodes, nodeId)
+func (b *PathOfBuilding) AllocateNodes(nodeIds []int64) {
+	b.Build.PassiveNodes = append(b.Build.PassiveNodes, nodeIds...)
 }
 
-func (b *PathOfBuilding) DeallocateNode(nodeId int64) {
+func (b *PathOfBuilding) DeallocateNodes(nodeId int64) {
 	var newNodes, err = removeValue(b.Build.PassiveNodes, nodeId)
 	if err == nil {
 		b.Build.PassiveNodes = newNodes

@@ -224,13 +224,13 @@ class PoBWorker {
     this.Tick('SetLevel');
   }
 
-  AllocateNode(nodeId: number) {
-    this.currentBuild?.AllocateNode(nodeId);
+  AllocateNodes(nodeIds: number[]) {
+    this.currentBuild?.AllocateNodes(nodeIds);
     this.Tick('AllocateNode');
   }
 
-  DeallocateNode(nodeId: number) {
-    this.currentBuild?.DeallocateNode(nodeId);
+  DeallocateNodes(nodeId: number) {
+    this.currentBuild?.DeallocateNodes(nodeId);
     this.Tick('DeallocateNode');
   }
 
