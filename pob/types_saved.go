@@ -37,6 +37,7 @@ type Build struct {
 	Level            int              `xml:"level,attr"`
 	MainSocketGroup  int              `xml:"mainSocketGroup,attr"`
 	TargetVersion    data.GameVersion `xml:"targetVersion,attr"`
+	PassiveNodes     []int64
 
 	PlayerStats []PlayerStat `xml:"PlayerStat"`
 }
@@ -164,7 +165,7 @@ type Spec struct {
 	ClassID        int              `xml:"classID,attr"`       // TODO Enum
 	AscendClassID  int              `xml:"ascendClassID,attr"` // TODO Enum
 	TreeVersion    data.TreeVersion `xml:"treeVersion,attr"`   // TODO Enum
-	Nodes          string           `xml:"nodes,attr"`
+	NodesAttr      string           `xml:"nodes,attr"`
 	MasteryEffects string           `xml:"masteryEffects,attr"`
 	URL            string           `xml:"URL"`
 }

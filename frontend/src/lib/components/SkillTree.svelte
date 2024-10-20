@@ -32,6 +32,9 @@
   let currentAscendancy: string | undefined;
   $: $currentBuild?.Build?.AscendClassName?.then((newAscendancy) => (currentAscendancy = newAscendancy));
 
+  let activeNodes: number[] | undefined;
+  $: $currentBuild?.Build?.PassiveNodes?.then((newNodes) => (activeNodes = newNodes));
+
   interface RenderParams {
     context: CanvasRenderingContext2D;
     width: number;
@@ -240,8 +243,6 @@
         continue;
       }
 
-      const sourceActive = $hoverPath.indexOf(node.skill!) >= 0;
-
       for (const o of node.out) {
         const otherNodeId = parseInt(o);
         if (!drawnNodes.has(otherNodeId)) {
@@ -293,20 +294,24 @@
           context.arc(groupPos.x, groupPos.y, skillTree.constants.orbitRadii[node.orbit] / scaling + 1, finalA, finalB);
         }
 
-        if (sourceActive && $hoverPath.indexOf(targetNode.skill!) >= 0) {
+        let lineWidth = 6;
+        if (activeNodes?.includes(nodeId) && activeNodes?.includes(otherNodeId)) {
+          context.strokeStyle = `#e9deb6`;
+          lineWidth = 12;
+        } else if ($hoverPath.includes(nodeId) && $hoverPath.includes(otherNodeId)) {
           context.strokeStyle = `#c89c01`;
         } else {
           context.strokeStyle = `#524518`;
         }
 
-        context.lineWidth = 6 / scaling;
+        context.lineWidth = lineWidth / scaling;
         context.stroke();
       }
     }
 
     // let hoveredNodeActive = false;
     let newHoverNode: Node | undefined;
-    for (const [_, node] of drawnNodes) {
+    for (const [nodeId, node] of drawnNodes) {
       const rotatedPos = calculateNodePos(node, offsetX, offsetY, scaling);
       let touchDistance = 0;
 
@@ -331,7 +336,7 @@
         // hoveredNodeActive = active;
       }
 
-      const active = false; // TODO Actually check if node is active
+      const active = activeNodes?.includes(nodeId); // TODO Actually check if node is active
       const highlighted = $hoverPath.indexOf(node.skill!) >= 0 || newHoverNode === node;
 
       if (node.classStartIndex !== undefined) {
