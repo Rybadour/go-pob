@@ -43,7 +43,16 @@
 
   type RenderFunc = (params: RenderParams) => void;
 
-  export let clickNode: (node: Node) => void = console.log;
+  export let clickNode = (node: Node) => {
+    const nodeId = node.skill ?? -1;
+    if (activeNodes?.includes(nodeId)) {
+      syncWrap?.DeallocateNode(nodeId);
+    } else {
+      syncWrap?.AllocateNode(nodeId);
+    }
+
+    currentBuild.set($currentBuild);
+  }
 
   const titleFont = '25px Roboto Flex';
   const statsFont = '17px Roboto Flex';

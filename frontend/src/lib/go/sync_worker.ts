@@ -224,6 +224,16 @@ class PoBWorker {
     this.Tick('SetLevel');
   }
 
+  AllocateNode(nodeId: number) {
+    this.currentBuild?.AllocateNode(nodeId);
+    this.Tick('AllocateNode');
+  }
+
+  DeallocateNode(nodeId: number) {
+    this.currentBuild?.DeallocateNode(nodeId);
+    this.Tick('DeallocateNode');
+  }
+
   async CalculateTreePath(version: string, activeNodes: number[], target: number) {
     return exposition.CalculateTreePath(version, activeNodes, target);
   }
